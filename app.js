@@ -57,7 +57,7 @@ app.get("/list/new", (req, res) =>{
 	res.render("new")
 });
 
-//create new to do
+//create(route) new to do
 app.post("/list", (req, res) => {
 		
 	//get data and add to list array
@@ -84,6 +84,19 @@ app.get("/list/:id", function(req,res){
 			res.render("show", {showToDo: foundToDo});
 		}
 	})
+});
+
+//edit route
+app.get("/list/:id/edit", function(req,res){
+	
+	toDo.findById(req.params.id, function(err, foundToDo){
+		if(err){
+			res.redirect("/list");
+
+			} else {
+				res.render("edit", {showToDo: foundToDo});
+			}
+	});
 });
 
 app.listen(3000, () =>{

@@ -1,0 +1,11 @@
+<% include partials/header %>
+<h1>edit <%= showToDo.toDo %>
+</h1>
+
+
+<form action="/list" method="POST">
+	<input type="text" name ="todo" value="<%= showToDo.toDo%>">
+	<button>Submit</button>
+
+</form>
+<% include partials/footer %>
