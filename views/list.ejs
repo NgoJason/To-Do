@@ -1,0 +1,25 @@
+<% include partials/header %>
+
+
+ <div class ="container">
+  	<header class="jumbotron">
+ 	 <h1>list</h1>	
+	</header>
+  	<% list.forEach(function(item){ %>
+	  <li>
+		<%= item.toDo %>
+	  </li>
+	<% }); %>
+
+	<p>
+		<a class ="btn btn-primary" href="/list/new">Add new Todo</a>
+	</p>
+  </div>
+  <form action="/list" method="POST">
+	<input type="text" name ="todo" placeholder="To do">
+	<button>Submit</button>
+
+</form>
+
+
+<% include partials/footer %>
