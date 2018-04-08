@@ -7,7 +7,7 @@
 	</header>
   	<% list.forEach(function(item){ %>
 	  <li>
-		<%= item.toDo %>
+		<%= item.toDo %> <a href="/list/<%=item._id%>">EDIT ME</a>
 	  </li>
 	<% }); %>
 

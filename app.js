@@ -75,9 +75,18 @@ app.post("/list", (req, res) => {
 	
 });
 
+//show route
+app.get("/list/:id", function(req,res){
+	toDo.findById(req.params.id, function(err,foundToDo){
+		if(err){
+			res.redirect("/list");
+		} else {
+			res.render("show", {showToDo: foundToDo});
+		}
+	})
+});
 
 app.listen(3000, () =>{
   console.log("appstarted");
 });
 
-//added quotes
