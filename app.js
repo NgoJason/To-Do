@@ -109,10 +109,21 @@ app.put("/list/:id", function(req,res){
 		if(err){
 			res.send("error");
 		} else {
-			res.redirect("/");
+			res.redirect("/list");
 		}
-	})
-})
+	});
+});
+
+//delete route
+app.delete("/list/:id",function(req,res){
+	toDo.findByIdAndRemove(req.params.id,function(err){
+		if(err){
+			res.redirect("/list");
+		} else{
+			res.redirect("/list");
+		}
+	});
+});
 
 app.listen(3000, () =>{
   console.log("appstarted");
