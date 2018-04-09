@@ -1,7 +1,8 @@
 var express    = require("express");
 var app        = express();
 var bodyParser = require("body-parser");
-var mongoose   = require("mongoose");	
+var mongoose   = require("mongoose");
+var methodOverride = require("method-override");	
 
 //connect to mongoDB via mongoose
 mongoose.connect("mongodb://localhost/to_do_app");
@@ -25,6 +26,9 @@ var toDo = mongoose.model("toDo", toDoSchema);
 		console.log(todo);
 	}
 });*/
+
+//set up method override
+app.use(methodOverride("_method"));
 
 //set up body parser
 app.use(bodyParser.urlencoded({extended: true}));
@@ -98,6 +102,17 @@ app.get("/list/:id/edit", function(req,res){
 			}
 	});
 });
+
+//update route
+app.put("/list/:id", function(req,res){
+	 toDo.findByIdAndUpdate(req.params.id, req.body.todo, function(err, updated){
+		if(err){
+			res.send("error");
+		} else {
+			res.redirect("/");
+		}
+	})
+})
 
 app.listen(3000, () =>{
   console.log("appstarted");
