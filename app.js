@@ -3,16 +3,12 @@ var app        = express();
 var bodyParser = require("body-parser");
 var mongoose   = require("mongoose");
 var methodOverride = require("method-override");	
+var toDo       = require("./models/todo");
 
 //connect to mongoDB via mongoose
 mongoose.connect("mongodb://localhost/to_do_app");
 
-//todo Schema
-var toDoSchema = new mongoose.Schema({
-	toDo: String
-});
 
-var toDo = mongoose.model("toDo", toDoSchema);
 
 /*toDo.create({
 	toDo: "lots of coding"
@@ -125,7 +121,7 @@ app.delete("/list/:id",function(req,res){
 	});
 });
 
-app.listen(3000, () =>{
+app.listen(3001, () =>{
   console.log("appstarted");
 });
 
