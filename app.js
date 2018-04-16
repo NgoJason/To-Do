@@ -4,6 +4,9 @@ var bodyParser = require("body-parser");
 var mongoose   = require("mongoose");
 var methodOverride = require("method-override");	
 var toDo       = require("./models/todo");
+var passport   = require("passport");
+var LocalStrategy = require("passport-local");
+var User       = require("./models/user");
 
 //connect to mongoDB via mongoose
 mongoose.connect("mongodb://localhost/to_do_app");
