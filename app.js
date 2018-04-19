@@ -52,7 +52,7 @@ app.get("/", (req, res) => {
 });
 
 //index page
-app.get("/list", (req,res) => {
+app.get("/list", isLoggedIn, (req,res) => {
     //get all to dos from database
     toDo.find({}, function(err, todos){
     	if(err){
@@ -67,12 +67,12 @@ app.get("/list", (req,res) => {
 });
 
 //form to create new to do
-app.get("/list/new", (req, res) =>{
+app.get("/list/new", isLoggedIn, (req, res) =>{
 	res.render("new")
 });
 
 //create(route) new to do
-app.post("/list", (req, res) => {
+app.post("/list", isLoggedIn, (req, res) => {
 		
 	//get data and add to list array
 	var toDoVar = req.body.todo;	
@@ -90,7 +90,7 @@ app.post("/list", (req, res) => {
 });
 
 //show route
-app.get("/list/:id", function(req,res){
+app.get("/list/:id", isLoggedIn, function(req,res){
 	toDo.findById(req.params.id, function(err,foundToDo){
 		if(err){
 			res.redirect("/list");
@@ -101,7 +101,7 @@ app.get("/list/:id", function(req,res){
 });
 
 //edit route
-app.get("/list/:id/edit", function(req,res){
+app.get("/list/:id/edit", isLoggedIn, function(req,res){
 	
 	toDo.findById(req.params.id, function(err, foundToDo){
 		if(err){
@@ -125,7 +125,7 @@ app.put("/list/:id", function(req,res){
 });
 
 //delete route
-app.delete("/list/:id",function(req,res){
+app.delete("/list/:id", isLoggedIn, function(req,res){
 	toDo.findByIdAndRemove(req.params.id,function(err){
 		if(err){
 			res.redirect("/list");
@@ -169,6 +169,22 @@ app.post("/login", passport.authenticate("local", {
 }) , function(req,res ){
 	
 });
+
+//logout
+app.get("/logout", function(req,res){
+	req.logout();
+	res.redirect("/");
+})
+
+
+//middleware
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	} else {
+		res.redirect("/login");
+	}
+}
 
 app.listen(3001, () =>{
   console.log("appstarted");
