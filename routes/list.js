@@ -26,9 +26,14 @@ router.get("/list/new", isLoggedIn, (req, res) =>{
 router.post("/list", isLoggedIn, (req, res) => {
 		
 	//get data and add to list array
-	var toDoVar = req.body.todo;	
-	var newToDo = { toDo: toDoVar}	
-	//create new to do and add to db
+	var toDoVar = req.body.todo;
+	var author = {
+		id:req.user._id,
+		username: req.user.username
+	}	
+	var newToDo = { toDo: toDoVar, author: author}	
+	//create new to do and add to DB
+	
 	toDo.create(newToDo, function(err, newToDoItem){
 		if(err){
 			console.log(err);
@@ -65,7 +70,7 @@ router.get("/list/:id/edit", isLoggedIn, function(req,res){
 });
 
 //update route
-router.put("/list/:id", function(req,res){
+router.put("/list/:id", isLoggedIn, function(req,res){
 	 toDo.findByIdAndUpdate(req.params.id, req.body.todo, function(err, updated){
 		if(err){
 			res.send("error");
