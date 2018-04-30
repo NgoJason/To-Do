@@ -1,7 +1,21 @@
 <% include partials/header %>
 <h1>edit <%= showToDo.toDo %>
 </h1>
+ <div class ="container">
+  	<header class="jumbotron">
+ 	 <h1>list</h1>	
+	</header>
+  	<% list.forEach(function(item){ %>
+	  <li>
+		<%= item.toDo %>  <a href="/list/<%=item._id%>">EDIT ME</a>
+	  </li>
+	  <p>Submitted by <%= item.author.username%></p>
+	<% }); %>
 
+	<p>
+		<a class ="btn btn-primary" href="/list/new">Add new Todo</a>
+	</p>
+  </div>
 
 <form action="/list/<%=showToDo._id%>?_method=PUT" method="POST">
 	<input type="text" name ="todo[toDo]" value="<%= showToDo.toDo%>">
