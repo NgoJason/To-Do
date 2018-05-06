@@ -57,16 +57,10 @@ router.get("/list/:id", isLoggedIn, function(req,res){
 });
 
 //edit route
-router.get("/list/:id/edit", isLoggedIn, function(req,res){
-	
-	toDo.findById(req.params.id, function(err, foundToDo){
-		if(err){
-			res.redirect("/list");
-
-			} else {
-				res.render("edit", {showToDo: foundToDo});
-			}
-	});
+router.get("/list/:id/edit", checkListOwnership, function(req,res){			  
+  toDo.findById(req.params.id, function(err, foundToDo){
+	 res.render("edit", {showToDo: foundToDo});
+  });			
 });
 
 //update route
@@ -98,6 +92,29 @@ function isLoggedIn(req, res, next){
 	} else {
 		res.redirect("/login");
 	}
+}
+
+function checkListOwnership(req, res, next){
+	//is user logged in
+		if(req.isAuthenticated()){
+		  
+		  toDo.findById(req.params.id, function(err, foundToDo){
+			if(err){
+			res.redirect("back");
+
+			} else {
+				//does user own list?
+				if(foundToDo.author.id.equals(req.user._id)){
+				  next();
+				} else {
+				  res.redirect("back");	
+				}
+				
+			}
+		  });		
+		} else {
+			res.redirect("back");
+		}
 }
 
 module.exports = router;
