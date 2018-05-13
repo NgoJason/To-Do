@@ -1,9 +1,12 @@
 <% include partials/header %>
 <h1><%= showToDo.toDo %>
 </h1>
-<a href="/list/<%=showToDo._id%>/edit" class= "btn btn-primary btn-large">edit</a>
-<form action="/list/<%=showToDo._id%>?_method=DELETE" method="POST">
-	<button class ="btn btn-large">DELETE</button>
-</form>
+
+<%if(currentUser && showToDo.author.id.equals(currentUser._id)){%>
+	<a href="/list/<%=showToDo._id%>/edit" class= "btn btn-primary btn-large">edit</a>
+	<form action="/list/<%=showToDo._id%>?_method=DELETE" method="POST">
+		<button class ="btn btn-large">DELETE</button>
+	</form>
+<%}%>
 
 <% include partials/footer %>

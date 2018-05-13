@@ -64,7 +64,7 @@ router.get("/list/:id/edit", checkListOwnership, function(req,res){
 });
 
 //update route
-router.put("/list/:id", isLoggedIn, function(req,res){
+router.put("/list/:id", checkListOwnership, function(req,res){
 	 toDo.findByIdAndUpdate(req.params.id, req.body.todo, function(err, updated){
 		if(err){
 			res.send("error");
@@ -75,7 +75,7 @@ router.put("/list/:id", isLoggedIn, function(req,res){
 });
 
 //delete route
-router.delete("/list/:id", isLoggedIn, function(req,res){
+router.delete("/list/:id", checkListOwnership, function(req,res){
 	toDo.findByIdAndRemove(req.params.id,function(err){
 		if(err){
 			res.redirect("/list");
